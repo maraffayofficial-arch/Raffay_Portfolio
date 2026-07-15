@@ -341,17 +341,17 @@ const ContactForm = () => {
     setStatus('sending');
     setErrorMsg('');
     try {
+      const formData = new FormData();
+      formData.append('access_key', WEB3FORMS_ACCESS_KEY);
+      formData.append('subject', `Portfolio contact from ${form.name}`);
+      formData.append('from_name', form.name);
+      formData.append('name', form.name);
+      formData.append('email', form.email);
+      formData.append('message', form.message);
+
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `Portfolio contact from ${form.name}`,
-          from_name: form.name,
-          name: form.name,
-          email: form.email,
-          message: form.message,
-        }),
+        body: formData,
       });
       const data = await res.json();
       if (data.success) {

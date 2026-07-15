@@ -117,6 +117,131 @@ const Experience = () => {
   );
 };
 
+// ---------- Certifications ----------
+const CERTIFICATIONS = [
+  {
+    id: 'CERT_01',
+    title: 'Artificial Intelligence Intern',
+    org: 'Kaizen Hive (SMC-Private) Ltd.',
+    duration: '3 MONTHS',
+    issued: '01 Jul 2026',
+    certId: '2ca02ad2db6a655440275760',
+    verifyUrl: 'http://program.kaizenhive.com/verify-certificate?id=2ca02ad2db6a655440275760',
+    image: 'assets/kaizenhive-certificate.png',
+    file: 'assets/KAIZENHIVE_AI_CERTIFICATE.pdf',
+    color: 'red',
+  },
+];
+
+const CertCard = ({ c }) => {
+  const [hover, setHover] = React.useState(false);
+  const accent = c.color === 'red' ? C2.red : C2.blue;
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        position: 'relative',
+        background: C2.surface,
+        border: `1px solid ${hover ? accent : C2.line}`,
+        transition: 'all 0.25s ease',
+        transform: hover ? 'translateY(-4px)' : 'translateY(0)',
+        boxShadow: hover ? `0 10px 40px ${accent}22, 0 0 0 1px ${accent}` : 'none',
+        overflow: 'hidden',
+      }}
+    >
+      <NB2 pos="tl" color={accent} size={14} />
+      <NB2 pos="br" color={accent} size={14} />
+
+      <div style={{
+        padding: '14px 20px',
+        borderBottom: `1px solid ${C2.line}`,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}>
+        <span style={{ fontFamily: F2.FONT_MONO, fontSize: 10, color: accent, letterSpacing: '0.2em' }}>
+          ◉ {c.id}
+        </span>
+        <span style={{ fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkMute, letterSpacing: '0.15em' }}>
+          {c.duration}
+        </span>
+      </div>
+
+      <a href={c.file} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
+        <img
+          src={c.image}
+          alt={`${c.title} certificate — ${c.org}`}
+          style={{ display: 'block', width: '100%', height: 220, objectFit: 'cover', objectPosition: 'top', borderBottom: `1px solid ${C2.line}` }}
+        />
+      </a>
+
+      <div style={{ padding: '22px 22px 24px' }}>
+        <div style={{ fontFamily: F2.FONT_DISPLAY, fontSize: 24, fontWeight: 700, color: C2.ink, letterSpacing: '-0.01em' }}>
+          {c.title}
+        </div>
+        <div style={{ fontFamily: F2.FONT_MONO, fontSize: 11, color: accent, marginTop: 4, letterSpacing: '0.1em' }}>
+          @ {c.org}
+        </div>
+        <div style={{ fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkMute, marginTop: 10, letterSpacing: '0.05em', wordBreak: 'break-all' }}>
+          ID: {c.certId}
+        </div>
+
+        <div style={{
+          marginTop: 18,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingTop: 14,
+          borderTop: `1px dashed ${C2.line}`,
+          gap: 12,
+          flexWrap: 'wrap',
+        }}>
+          <span style={{ fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkMute }}>
+            issued · {c.issued}
+          </span>
+          <a
+            href={c.verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: F2.FONT_MONO,
+              fontSize: 10,
+              color: accent,
+              textDecoration: 'none',
+              border: `1px solid ${accent}`,
+              padding: '4px 10px',
+              letterSpacing: '0.1em',
+              transition: 'all 0.25s',
+              background: hover ? `${accent}15` : 'transparent',
+            }}
+          >
+            VERIFY ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Certifications = () => {
+  const { isMobile, isTablet } = window.useViewport();
+  const cols = isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)';
+  return (
+  <section id="certifications" style={{ position: 'relative', padding: isMobile ? '80px 20px' : '140px 40px', background: C2.bg, overflow: 'hidden' }}>
+    <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative' }}>
+      <div style={{ marginBottom: 56 }}>
+        <SL2 num="/ 05" label="credentials" />
+        <HH2B>Certifications <span style={{ color: C2.red }}>&amp;</span> training.</HH2B>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: cols, gap: 20 }}>
+        {CERTIFICATIONS.map(c => <CertCard key={c.id} c={c} />)}
+      </div>
+    </div>
+  </section>
+  );
+};
+
 // ---------- Blog ----------
 const POSTS = [
   { date: '2026·03·01', title: 'Training on-device: a notebook', read: '8 min', tag: 'ML' },
@@ -132,7 +257,7 @@ const Blog = () => {
     <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <SL2 num="/ 05" label="transmissions" />
+          <SL2 num="/ 06" label="transmissions" />
           <HH2B>Recent <span style={{ color: C2.red }}>writing</span>.</HH2B>
         </div>
         <span style={{ fontFamily: F2.FONT_MONO, fontSize: 11, color: C2.inkDim, letterSpacing: '0.15em' }}>
@@ -189,7 +314,7 @@ const ContactCTA = () => (
     }} />
     <div style={{ maxWidth: 960, margin: '0 auto', position: 'relative', textAlign: 'center' }}>
       <div style={{ fontFamily: F2.FONT_MONO, fontSize: 11, color: C2.red, letterSpacing: '0.3em', marginBottom: 20 }}>
-        / 06 · INITIATE.CONTACT
+        / 07 · INITIATE.CONTACT
       </div>
       <h2 style={{
         fontFamily: F2.FONT_DISPLAY,
@@ -267,7 +392,7 @@ const Footer = () => {
 
         <div>
           <div style={{ fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.blue, letterSpacing: '0.25em', marginBottom: 16 }}>/ NAVIGATE</div>
-          {['home', 'about', 'stack', 'projects', 'experience', 'blog'].map(l => (
+          {['home', 'about', 'stack', 'projects', 'experience', 'certifications', 'blog'].map(l => (
             <a key={l} href={`#${l}`} style={{
               display: 'block',
               fontFamily: F2.FONT_MONO, fontSize: 12, color: C2.inkDim,
@@ -323,4 +448,4 @@ const Footer = () => {
   );
 };
 
-Object.assign(window, { Experience, Blog, ContactCTA, Footer });
+Object.assign(window, { Experience, Certifications, CertCard, Blog, ContactCTA, Footer });

@@ -165,7 +165,7 @@ const Rain = ({ intensity = 1 }) => {
 // ---------- nav ----------
 
 const Nav = ({ active }) => {
-  const items = ['home', 'about', 'stack', 'projects', 'experience', 'blog', 'contact'];
+  const items = ['home', 'about', 'stack', 'projects', 'experience', 'certifications', 'blog', 'contact'];
   const [menuOpen, setMenuOpen] = React.useState(false);
   const { isMobile } = useViewport();
 

@@ -305,6 +305,166 @@ const Blog = () => {
 };
 
 // ---------- Contact / Footer ----------
+const WEB3FORMS_ACCESS_KEY = 'c0803edc-22bf-4acd-a3b7-5180b8869fb5';
+
+const contactInputStyle = {
+  width: '100%',
+  background: '#0c0c12',
+  border: `1px solid ${C2.line}`,
+  color: C2.ink,
+  fontFamily: F2.FONT_BODY,
+  fontSize: 14,
+  padding: '12px 14px',
+  outline: 'none',
+  transition: 'border-color 0.2s, box-shadow 0.2s',
+};
+
+const ContactForm = () => {
+  const [form, setForm] = React.useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = React.useState('idle'); // idle | sending | success | error
+  const [errorMsg, setErrorMsg] = React.useState('');
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleFocus = (e) => {
+    e.target.style.borderColor = C2.red;
+    e.target.style.boxShadow = `0 0 0 2px ${C2.red}22`;
+  };
+  const handleBlur = (e) => {
+    e.target.style.borderColor = C2.line;
+    e.target.style.boxShadow = 'none';
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (status === 'sending') return;
+    setStatus('sending');
+    setErrorMsg('');
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `Portfolio contact from ${form.name}`,
+          from_name: form.name,
+          name: form.name,
+          email: form.email,
+          message: form.message,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus('success');
+        setForm({ name: '', email: '', message: '' });
+      } else {
+        setStatus('error');
+        setErrorMsg(data.message || 'Something went wrong — try again or email me directly.');
+      }
+    } catch (err) {
+      setStatus('error');
+      setErrorMsg('Network error — try again or email me directly.');
+    }
+  };
+
+  if (status === 'success') {
+    return (
+      <div style={{
+        maxWidth: 520, margin: '44px auto 0', padding: '32px 28px',
+        background: C2.surface, border: `1px solid ${C2.red}`, position: 'relative', textAlign: 'left',
+      }}>
+        <NB2 pos="tl" color={C2.red} size={14} />
+        <NB2 pos="br" color={C2.red} size={14} />
+        <div style={{ fontFamily: F2.FONT_MONO, fontSize: 12, color: C2.red, letterSpacing: '0.2em', marginBottom: 8 }}>
+          ● SIGNAL_RECEIVED
+        </div>
+        <p style={{ fontFamily: F2.FONT_BODY, fontSize: 15, color: C2.ink, lineHeight: 1.6, margin: 0 }}>
+          Thanks — your message is in my inbox. I usually reply within 24 hours.
+        </p>
+        <button
+          onClick={() => setStatus('idle')}
+          style={{
+            marginTop: 20, background: 'transparent', border: `1px solid ${C2.line}`, color: C2.inkDim,
+            fontFamily: F2.FONT_MONO, fontSize: 11, letterSpacing: '0.15em', padding: '8px 14px', cursor: 'pointer',
+          }}
+        >
+          send another →
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        maxWidth: 520, margin: '44px auto 0', padding: '32px 28px',
+        background: C2.surface, border: `1px solid ${C2.line}`, position: 'relative', textAlign: 'left',
+      }}
+    >
+      <NB2 pos="tl" color={C2.blue} size={14} />
+      <NB2 pos="br" color={C2.blue} size={14} />
+
+      <input type="checkbox" name="botcheck" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
+
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkDim, letterSpacing: '0.2em', marginBottom: 8 }}>
+          NAME
+        </label>
+        <input
+          type="text" name="name" required value={form.name} onChange={handleChange}
+          onFocus={handleFocus} onBlur={handleBlur}
+          placeholder="Your name" style={contactInputStyle}
+        />
+      </div>
+
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkDim, letterSpacing: '0.2em', marginBottom: 8 }}>
+          EMAIL
+        </label>
+        <input
+          type="email" name="email" required value={form.email} onChange={handleChange}
+          onFocus={handleFocus} onBlur={handleBlur}
+          placeholder="you@example.com" style={contactInputStyle}
+        />
+      </div>
+
+      <div style={{ marginBottom: 20 }}>
+        <label style={{ display: 'block', fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkDim, letterSpacing: '0.2em', marginBottom: 8 }}>
+          MESSAGE
+        </label>
+        <textarea
+          name="message" required rows={5} value={form.message} onChange={handleChange}
+          onFocus={handleFocus} onBlur={handleBlur}
+          placeholder="What are you building?" style={{ ...contactInputStyle, resize: 'vertical', fontFamily: F2.FONT_BODY }}
+        />
+      </div>
+
+      {status === 'error' && (
+        <div style={{ fontFamily: F2.FONT_MONO, fontSize: 12, color: C2.red, marginBottom: 16 }}>
+          ⚠ {errorMsg}
+        </div>
+      )}
+
+      <button
+        type="submit"
+        disabled={status === 'sending'}
+        style={{
+          width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+          padding: '14px 20px', border: `1.5px solid ${C2.red}`, color: C2.red, background: 'transparent',
+          fontFamily: F2.FONT_MONO, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase',
+          cursor: status === 'sending' ? 'not-allowed' : 'pointer', opacity: status === 'sending' ? 0.6 : 1,
+          transition: 'all 0.2s ease',
+        }}
+        onMouseEnter={(e) => { if (status !== 'sending') { e.currentTarget.style.background = `${C2.red}18`; e.currentTarget.style.boxShadow = `0 0 20px ${C2.red}55`; } }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.boxShadow = 'none'; }}
+      >
+        {status === 'sending' ? 'sending…' : '◉ Send Message'}
+      </button>
+    </form>
+  );
+};
+
 const ContactCTA = () => (
   <section id="contact" style={{ position: 'relative', padding: '160px 40px 100px', background: C2.bgAlt, overflow: 'hidden' }}>
     <GridBg />
@@ -332,10 +492,15 @@ const ContactCTA = () => (
       <p style={{ fontFamily: F2.FONT_BODY, fontSize: 17, color: C2.inkDim, marginTop: 28, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>
         Open to internship offers, collaborations, and late-night MERN builds. Send a signal — I usually reply within 24 hours.
       </p>
-      <div style={{ display: 'flex', gap: 14, marginTop: 44, justifyContent: 'center', flexWrap: 'wrap' }}>
-        <BB2 href="mailto:m.a.raffay.official@gmail.com" color={C2.red}>◉ Send Email</BB2>
+
+      <ContactForm />
+
+      <div style={{ display: 'flex', gap: 14, marginTop: 28, justifyContent: 'center', flexWrap: 'wrap' }}>
         <BB2 href="https://www.linkedin.com/in/muhammad-abdul-raffay-31bb90385" color={C2.blue}>LinkedIn ↗</BB2>
       </div>
+      <p style={{ fontFamily: F2.FONT_MONO, fontSize: 11, color: C2.inkMute, marginTop: 20, letterSpacing: '0.1em' }}>
+        prefer email? <a href="mailto:m.a.raffay.official@gmail.com" style={{ color: C2.inkDim }}>m.a.raffay.official@gmail.com</a>
+      </p>
     </div>
   </section>
 );

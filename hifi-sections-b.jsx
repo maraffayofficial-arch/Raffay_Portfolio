@@ -131,6 +131,15 @@ const CERTIFICATIONS = [
     file: 'assets/KAIZENHIVE_AI_CERTIFICATE.pdf',
     color: 'red',
   },
+  {
+    id: 'CERT_02',
+    title: 'AI Fluency for Students',
+    org: 'Anthropic Academy',
+    duration: 'COURSE',
+    image: 'assets/anthropic-ai-fluency-certificate.png',
+    file: 'assets/ANTHROPIC_AI_FLUENCY_CERTIFICATE.pdf',
+    color: 'blue',
+  },
 ];
 
 const CertCard = ({ c }) => {
@@ -183,42 +192,48 @@ const CertCard = ({ c }) => {
         <div style={{ fontFamily: F2.FONT_MONO, fontSize: 11, color: accent, marginTop: 4, letterSpacing: '0.1em' }}>
           @ {c.org}
         </div>
-        <div style={{ fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkMute, marginTop: 10, letterSpacing: '0.05em', wordBreak: 'break-all' }}>
-          ID: {c.certId}
-        </div>
+        {c.certId && (
+          <div style={{ fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkMute, marginTop: 10, letterSpacing: '0.05em', wordBreak: 'break-all' }}>
+            ID: {c.certId}
+          </div>
+        )}
 
-        <div style={{
-          marginTop: 18,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingTop: 14,
-          borderTop: `1px dashed ${C2.line}`,
-          gap: 12,
-          flexWrap: 'wrap',
-        }}>
-          <span style={{ fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkMute }}>
-            issued · {c.issued}
-          </span>
-          <a
-            href={c.verifyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: F2.FONT_MONO,
-              fontSize: 10,
-              color: accent,
-              textDecoration: 'none',
-              border: `1px solid ${accent}`,
-              padding: '4px 10px',
-              letterSpacing: '0.1em',
-              transition: 'all 0.25s',
-              background: hover ? `${accent}15` : 'transparent',
-            }}
-          >
-            VERIFY ↗
-          </a>
-        </div>
+        {(c.issued || c.verifyUrl) && (
+          <div style={{
+            marginTop: 18,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingTop: 14,
+            borderTop: `1px dashed ${C2.line}`,
+            gap: 12,
+            flexWrap: 'wrap',
+          }}>
+            <span style={{ fontFamily: F2.FONT_MONO, fontSize: 10, color: C2.inkMute }}>
+              {c.issued ? `issued · ${c.issued}` : ''}
+            </span>
+            {c.verifyUrl && (
+              <a
+                href={c.verifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontFamily: F2.FONT_MONO,
+                  fontSize: 10,
+                  color: accent,
+                  textDecoration: 'none',
+                  border: `1px solid ${accent}`,
+                  padding: '4px 10px',
+                  letterSpacing: '0.1em',
+                  transition: 'all 0.25s',
+                  background: hover ? `${accent}15` : 'transparent',
+                }}
+              >
+                VERIFY ↗
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -212,7 +212,7 @@ const Nav = ({ active }) => {
                 {x}
               </a>
             ))}
-            <Btn color={C.blue} href="assets/RESUME_RAFFAY.pdf" download style={{ padding: '8px 14px', fontSize: 11 }}>
+            <Btn color={C.blue} href="assets/raffay_Resume_fr.pdf" download style={{ padding: '8px 14px', fontSize: 11 }}>
               Resume ↓
             </Btn>
           </div>
@@ -275,7 +275,7 @@ const Nav = ({ active }) => {
             </a>
           ))}
           <a
-            href="assets/RESUME_RAFFAY.pdf"
+            href="assets/raffay_Resume_fr.pdf"
             download
             style={{
               display: 'inline-flex',

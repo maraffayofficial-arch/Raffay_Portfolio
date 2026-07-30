@@ -197,6 +197,7 @@ const PROJECTS = [
     id: 'PRJ_05', name: 'floor.ai', kind: 'DL · Computer Vision',
     desc: 'Novel deep learning model for automated floor plan generation using PyTorch and OpenCV, exposed via Flask. Currently in active development.',
     tags: ['PyTorch', 'OpenCV', 'Flask', 'Python'],
+    live: 'https://www.linkedin.com/feed/update/urn:li:activity:7487126123294904321/',
     repo: 'https://github.com/maraffayofficial-arch',
     accent: CC.red,
   },

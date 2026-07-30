@@ -176,7 +176,7 @@ const PROJECTS = [
     id: 'PRJ_02', name: 'attend.ai', kind: 'ML · Time-Series',
     desc: 'End-to-end time-series ML pipeline using Facebook Prophet integrated with a Flask REST API and MySQL. Achieved 0.93 prediction accuracy.',
     tags: ['Python', 'Prophet', 'Flask', 'MySQL'],
-    repo: 'https://github.com/maraffayofficial-arch/Student_Performance_Evaluation-Multiple-Linear-Regression-ML',
+    repo: 'https://github.com/maraffayofficial-arch/automated_attendance_predictior',
     accent: CC.blue,
   },
   {
